@@ -13,17 +13,17 @@ const db = new Map();
  * @returns {Array<Todo>} The todos for the user.
  */
 export function getTodos(userid) {
-	if (!db.get(userid)) {
-		db.set(userid, [
-			{
-				id: crypto.randomUUID(),
-				description: 'Learn SvelteKit',
-				done: false
-			}
-		]);
-	}
+  if (!db.get(userid)) {
+    db.set(userid, [
+      {
+        id: crypto.randomUUID(),
+        description: 'Learn SvelteKit',
+        done: false
+      }
+    ]);
+  }
 
-	return db.get(userid);
+  return db.get(userid);
 }
 
 /**
@@ -38,27 +38,27 @@ export function getTodos(userid) {
  * @returns {Todo} The newly created todo object.
  */
 export function createTodo(userid, description) {
-	const todos = db.get(userid);
+  const todos = db.get(userid);
 
-	if (!userid || !description) {
-		throw new Error('User ID and description are required.');
-	}
-	const existingTodos = getTodos(userid);
-	const isDuplicate = existingTodos.some((todo) => todo.description === description);
+  if (!userid || !description) {
+    throw new Error('User ID and description are required.');
+  }
+  const existingTodos = getTodos(userid);
+  const isDuplicate = existingTodos.some((todo) => todo.description === description);
 
-	if (isDuplicate) {
-		throw new Error('Todos must be unique.');
-	}
+  if (isDuplicate) {
+    throw new Error('Todos must be unique.');
+  }
 
-	const todo = {
-		id: crypto.randomUUID(),
-		description,
-		done: false
-	};
+  const todo = {
+    id: crypto.randomUUID(),
+    description,
+    done: false
+  };
 
-	todos.push(todo);
+  todos.push(todo);
 
-	return todo;
+  return todo;
 }
 
 /**
@@ -67,19 +67,19 @@ export function createTodo(userid, description) {
  * @param {string} todoid - The ID of the todo to delete.
  */
 export function deleteTodo(userid, todoid) {
-	if (!userid || !todoid) {
-		throw new Error('User ID and todo ID are required.');
-	}
-	/**
-	 * @type {Array<Todo>}
-	 */
-	const todos = db.get(userid);
+  if (!userid || !todoid) {
+    throw new Error('User ID and todo ID are required.');
+  }
+  /**
+   * @type {Array<Todo>}
+   */
+  const todos = db.get(userid);
 
-	const index = todos.findIndex((todo) => todo.id === todoid);
+  const index = todos.findIndex((todo) => todo.id === todoid);
 
-	if (index !== -1) {
-		todos.splice(index, 1);
-	}
+  if (index !== -1) {
+    todos.splice(index, 1);
+  }
 }
 
 /**
@@ -89,14 +89,14 @@ export function deleteTodo(userid, todoid) {
  * @param {boolean} done - Indicates if the todo is done.
  */
 export function toggleTodo(userid, todoid, done) {
-	/**
-	 * @type {Array<Todo>}
-	 */
-	const todos = db.get(userid);
+  /**
+   * @type {Array<Todo>}
+   */
+  const todos = db.get(userid);
 
-	const todo = todos.find((todo) => todo.id === todoid);
+  const todo = todos.find((todo) => todo.id === todoid);
 
-	if (todo) {
-		todo.done = done;
-	}
+  if (todo) {
+    todo.done = done;
+  }
 }

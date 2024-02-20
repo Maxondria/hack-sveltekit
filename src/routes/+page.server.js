@@ -2,55 +2,55 @@ import * as db from '$lib/server/database';
 import { fail } from '@sveltejs/kit';
 
 export function load({ cookies }) {
-	let id = cookies.get('userid');
+  let id = cookies.get('userid');
 
-	if (!id) {
-		id = crypto.randomUUID();
-		cookies.set('userid', id, { path: '/' });
-	}
+  if (!id) {
+    id = crypto.randomUUID();
+    cookies.set('userid', id, { path: '/' });
+  }
 
-	return { todos: db.getTodos(id) };
+  return { todos: db.getTodos(id) };
 }
 
 export const actions = {
-	create: async ({ request, cookies }) => {
-		// simulate slow network
-		await new Promise((resolve) => setTimeout(resolve, 1000));
+  create: async ({ request, cookies }) => {
+    // simulate slow network
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-		const data = await request.formData();
+    const data = await request.formData();
 
-		const userid = cookies.get('userid') || '';
-		const description = data.get('description') || '';
+    const userid = cookies.get('userid') || '';
+    const description = data.get('description') || '';
 
-		try {
-			db.createTodo(userid, description.toString());
-		} catch (error) {
-			return fail(422, {
-				description: description.toString(),
-				// @ts-ignore
-				error: error.message
-			});
-		}
-	},
-	delete: async ({ request, cookies }) => {
-		// simulate slow network
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		const data = await request.formData();
+    try {
+      db.createTodo(userid, description.toString());
+    } catch (error) {
+      return fail(422, {
+        description: description.toString(),
+        // @ts-ignore
+        error: error.message
+      });
+    }
+  },
+  delete: async ({ request, cookies }) => {
+    // simulate slow network
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const data = await request.formData();
 
-		const userid = cookies.get('userid') || '';
-		/**
-		 * @type {any}
-		 */
-		const todoid = data.get('id');
+    const userid = cookies.get('userid') || '';
+    /**
+     * @type {any}
+     */
+    const todoid = data.get('id');
 
-		try {
-			db.deleteTodo(userid, todoid);
-		} catch (error) {
-			return fail(422, {
-				todoid,
-				// @ts-ignore
-				error: error.message
-			});
-		}
-	}
+    try {
+      db.deleteTodo(userid, todoid);
+    } catch (error) {
+      return fail(422, {
+        todoid,
+        // @ts-ignore
+        error: error.message
+      });
+    }
+  }
 };
