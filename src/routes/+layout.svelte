@@ -23,6 +23,7 @@
   <a href="/account" aria-current={$page.url.pathname === '/account'}>account</a>
   <a href="/app" aria-current={$page.url.pathname === '/app'}>app</a>
   <a href="/component" aria-current={$page.url.pathname === '/component'}>component</a>
+  <a href="/universal-and-server" aria-current={$page.url.pathname === '/universal-and-server'}>universal-and-server</a>
 </nav>
 
 <h1>Color URLs</h1>
